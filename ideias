@@ -1,0 +1,33 @@
+# Não criar separadamente.
+
+class Matricula {
+  notas: Nota[]
+  frequencia: Frequencia
+}
+
+Core
+ └── User
+
+Acadêmico
+ ├── Aluno
+ ├── Professor
+ ├── Curso
+ ├── Disciplina
+ ├── Turma
+ └── Matricula
+      ├── Nota (VO ou entidade interna)
+      └── Frequencia (VO)
+
+Comunicação
+ ├── Canal
+ └── Mensagem
+
+AVA
+ ├── AulaVirtual
+ ├── Material
+ ├── Atividade
+ └── Entrega
+
+Secretaria
+ ├── Documento
+ └── Solicitacao
