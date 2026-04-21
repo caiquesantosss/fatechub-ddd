@@ -39,7 +39,7 @@ export class UpdateUserUseCase {
       let passwordVO
 
       try {
-        passwordVO = Password.create(password)
+        passwordVO = await Password.create(password)
       } catch (error) {
         return left(error as Error)
       }

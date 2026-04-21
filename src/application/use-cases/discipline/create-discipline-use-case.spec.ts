@@ -15,10 +15,13 @@ describe("Create Discipline Use Case", () => {
     })
 
     it("should be able to create a discipline", async () => {
+
+        const password = await Password.create('123456')
+
         const userOrError = User.create({
             name: "Coordenador",
             email: Email.create("coord@email.com"),
-            password: Password.create("123456"),
+            password,
             role: UserRole.COORDINATOR
         })
 
@@ -44,10 +47,12 @@ describe("Create Discipline Use Case", () => {
     })
 
     it("should not allow non-coordinator to create a discipline", async () => {
+        const password = await Password.create('123456')
+
         const userOrError = User.create({
             name: "Aluno",
             email: Email.create("aluno@email.com"),
-            password: Password.create("123456"),
+            password,
             role: UserRole.STUDENT
         })
 

@@ -147,3 +147,5 @@ vite.config.ts.timestamp-*
 
 Dockerfile
 .yml
+
+/generated/prisma

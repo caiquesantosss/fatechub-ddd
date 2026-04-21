@@ -23,10 +23,12 @@ describe("Add Grade Use Case", () => {
 
     await enrollmentRepo.create(enrollment)
 
+    const password = await Password.create('123456')
+
     const userOrError = User.create({
       name: "Professor",
       email: Email.create("prof@email.com"),
-      password: Password.create("123456"),
+      password,
       role: UserRole.PROFESSOR
     })
 
@@ -57,10 +59,12 @@ describe("Add Grade Use Case", () => {
 
     await enrollmentRepo.create(enrollment)
 
+    const password = await Password.create('123456')
+
     const userOrError = User.create({
       name: "Professor",
       email: Email.create("prof@email.com"),
-      password: Password.create("123456"),
+      password,
       role: UserRole.PROFESSOR
     })
 
@@ -85,10 +89,12 @@ describe("Add Grade Use Case", () => {
 
     await enrollmentRepo.create(enrollment)
 
+    const password = await Password.create('123456')
+
     const userOrError = User.create({
       name: "Aluno",
       email: Email.create("aluno@email.com"),
-      password: Password.create("123456"),
+      password,
       role: UserRole.STUDENT
     })
 

@@ -15,10 +15,12 @@ describe("Create Request Use Case", () => {
   })
 
   it("should be able to create a request", async () => {
+    const password = await Password.create('123456')
+
     const userOrError = User.create({
       name: "João",
       email: Email.create("joao@email.com"),
-      password: Password.create("123456"),
+      password,
       role: UserRole.STUDENT
     })
 
@@ -35,7 +37,7 @@ describe("Create Request Use Case", () => {
 
     expect(result.isRight()).toBe(true)
 
-    if (result.isRight()) { 
+    if (result.isRight()) {
       expect(requestRepo.items).toHaveLength(1)
       expect(requestRepo.items[0].status).toBe("pendente")
       expect(result.value.request.studentId).toBe(user.id)
@@ -43,10 +45,12 @@ describe("Create Request Use Case", () => {
   })
 
   it("should not allow non-student to create request", async () => {
+    const password = await Password.create('123456')
+
     const userOrError = User.create({
       name: "Maria",
       email: Email.create("maria@email.com"),
-      password: Password.create("123456"),
+      password,
       role: UserRole.SECRETARY
     })
 

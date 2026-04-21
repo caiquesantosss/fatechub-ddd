@@ -15,10 +15,12 @@ describe("Enroll Student Use Case", () => {
     })
 
     it("should be able to enroll a student", async () => {
+        const password = await Password.create('123456')
+
         const userOrError = User.create({
             name: "Coordenador",
             email: Email.create("coord@email.com"),
-            password: Password.create("123456"),
+            password,
             role: UserRole.COORDINATOR
         })
 
@@ -41,10 +43,12 @@ describe("Enroll Student Use Case", () => {
     })
 
     it("should not allow duplicate enrollment", async () => {
+        const password = await Password.create('123456')
+
         const userOrError = User.create({
             name: "Coordenador",
             email: Email.create("coord@email.com"),
-            password: Password.create("123456"),
+            password,
             role: UserRole.COORDINATOR
         })
 
@@ -67,10 +71,12 @@ describe("Enroll Student Use Case", () => {
     })
 
     it("should not allow non-coordinator to enroll", async () => {
+        const password = await Password.create('123456')
+
         const userOrError = User.create({
             name: "Aluno",
             email: Email.create("aluno@email.com"),
-            password: Password.create("123456"),
+            password,
             role: UserRole.STUDENT
         })
 
@@ -87,10 +93,12 @@ describe("Enroll Student Use Case", () => {
     })
 
     it("should be able to enroll multiple students in the same discipline", async () => {
+        const password = await Password.create('123456')
+        
         const userOrError = User.create({
             name: "Coordenador",
             email: Email.create("coord@email.com"),
-            password: Password.create("123456"),
+            password,
             role: UserRole.COORDINATOR
         })
 

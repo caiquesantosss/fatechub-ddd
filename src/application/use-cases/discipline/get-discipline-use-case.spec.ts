@@ -13,10 +13,12 @@ describe('Get Discipline Use Case', () => {
     const createUseCase = new CreateDisciplineUseCase(repo)
     const getUseCase = new GetDisciplineUseCase(repo)
 
+    const password = await Password.create('123456')
+
     const userOrError = User.create({
       name: "Coordenador",
       email: Email.create("coord@email.com"),
-      password: Password.create("123456"),
+      password,
       role: UserRole.COORDINATOR
     })
 

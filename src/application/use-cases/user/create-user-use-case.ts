@@ -1,4 +1,3 @@
-import { RA } from "@domain/user/values-objects/register-academic"
 import { Either, left, right } from "../../../core/either"
 import { User, UserRole } from "@domain/user/entity/User"
 import { UserRepository } from "@domain/user/repository/user-repository"
@@ -34,7 +33,7 @@ export class CreateUserUseCase {
 
         try {
             emailVO = Email.create(email)
-            passwordVO = Password.create(password)
+            passwordVO = await Password.create(password) // 🔥 AQUI
         } catch (error) {
             return left(error as Error)
         }
@@ -44,7 +43,6 @@ export class CreateUserUseCase {
         if (existingEmail) {
             return left(new Error("Usuário já existe!"))
         }
-
 
         const userOrError = User.create({
             name,

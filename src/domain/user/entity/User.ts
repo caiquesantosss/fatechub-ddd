@@ -26,7 +26,7 @@ export class User {
     public password: Password,
     public role: UserRole,
     public status: UserStatus,
-  ) {}
+  ) { }
 
   static create(props: CreateUserProps): Either<Error, User> {
 
@@ -42,6 +42,24 @@ export class User {
     )
 
     return right(user)
+  }
+
+  static restore(props: {
+    id: string
+    name: string
+    email: Email
+    password: Password
+    role: UserRole
+    status: UserStatus
+  }) {
+    return new User(
+      props.id,
+      props.name,
+      props.email,
+      props.password,
+      props.role,
+      props.status
+    )
   }
 
   disable() {
