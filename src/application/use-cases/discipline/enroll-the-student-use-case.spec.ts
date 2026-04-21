@@ -9,80 +9,112 @@ let enrollmentRepo: InMemoryEnrollmentRepository
 let sut: EnrollStudentUseCase
 
 describe("Enroll Student Use Case", () => {
-  beforeEach(() => {
-    enrollmentRepo = new InMemoryEnrollmentRepository()
-    sut = new EnrollStudentUseCase(enrollmentRepo)
-  })
-
-  it("should be able to enroll a student", async () => {
-    const userOrError = User.create({
-      name: "Coordenador",
-      email: Email.create("coord@email.com"),
-      password: Password.create("123456"),
-      role: UserRole.COORDINATOR
+    beforeEach(() => {
+        enrollmentRepo = new InMemoryEnrollmentRepository()
+        sut = new EnrollStudentUseCase(enrollmentRepo)
     })
 
-    if (userOrError.isLeft()) throw userOrError.value
+    it("should be able to enroll a student", async () => {
+        const userOrError = User.create({
+            name: "Coordenador",
+            email: Email.create("coord@email.com"),
+            password: Password.create("123456"),
+            role: UserRole.COORDINATOR
+        })
 
-    const user = userOrError.value
+        if (userOrError.isLeft()) throw userOrError.value
 
-    const result = await sut.execute({
-      user,
-      studentId: "student-1",
-      disciplineId: "disc-1"
+        const user = userOrError.value
+
+        const result = await sut.execute({
+            user,
+            studentId: "student-1",
+            disciplineId: "disc-1"
+        })
+
+        expect(result.isRight()).toBe(true)
+
+        if (result.isRight()) {
+            expect(enrollmentRepo.items).toHaveLength(1)
+            expect(result.value.enrollment.studentId).toBe("student-1")
+        }
     })
 
-    expect(result.isRight()).toBe(true)
+    it("should not allow duplicate enrollment", async () => {
+        const userOrError = User.create({
+            name: "Coordenador",
+            email: Email.create("coord@email.com"),
+            password: Password.create("123456"),
+            role: UserRole.COORDINATOR
+        })
 
-    if (result.isRight()) {
-      expect(enrollmentRepo.items).toHaveLength(1)
-      expect(result.value.enrollment.studentId).toBe("student-1")
-    }
-  })
+        if (userOrError.isLeft()) throw userOrError.value
+        const user = userOrError.value
 
-  it("should not allow duplicate enrollment", async () => {
-    const userOrError = User.create({
-      name: "Coordenador",
-      email: Email.create("coord@email.com"),
-      password: Password.create("123456"),
-      role: UserRole.COORDINATOR
+        await sut.execute({
+            user,
+            studentId: "student-1",
+            disciplineId: "disc-1"
+        })
+
+        const result = await sut.execute({
+            user,
+            studentId: "student-1",
+            disciplineId: "disc-1"
+        })
+
+        expect(result.isLeft()).toBe(true)
     })
 
-    if (userOrError.isLeft()) throw userOrError.value
-    const user = userOrError.value
+    it("should not allow non-coordinator to enroll", async () => {
+        const userOrError = User.create({
+            name: "Aluno",
+            email: Email.create("aluno@email.com"),
+            password: Password.create("123456"),
+            role: UserRole.STUDENT
+        })
 
-    await sut.execute({
-      user,
-      studentId: "student-1",
-      disciplineId: "disc-1"
+        if (userOrError.isLeft()) throw userOrError.value
+        const user = userOrError.value
+
+        const result = await sut.execute({
+            user,
+            studentId: "student-1",
+            disciplineId: "disc-1"
+        })
+
+        expect(result.isLeft()).toBe(true)
     })
 
-    const result = await sut.execute({
-      user,
-      studentId: "student-1",
-      disciplineId: "disc-1"
+    it("should be able to enroll multiple students in the same discipline", async () => {
+        const userOrError = User.create({
+            name: "Coordenador",
+            email: Email.create("coord@email.com"),
+            password: Password.create("123456"),
+            role: UserRole.COORDINATOR
+        })
+
+        if (userOrError.isLeft()) throw userOrError.value
+        const user = userOrError.value
+
+        const students = ["student-1", "student-2", "student-3"]
+
+        for (const studentId of students) {
+            const result = await sut.execute({
+                user,
+                studentId,
+                disciplineId: "disc-1"
+            })
+
+            expect(result.isRight()).toBe(true)
+        }
+
+        expect(enrollmentRepo.items).toHaveLength(3)
+
+        const enrolledStudentIds = enrollmentRepo.items.map(e => e.studentId)
+
+        expect(enrolledStudentIds).toEqual(
+            expect.arrayContaining(students)
+        )
     })
-
-    expect(result.isLeft()).toBe(true)
-  })
-
-  it("should not allow non-coordinator to enroll", async () => {
-    const userOrError = User.create({
-      name: "Aluno",
-      email: Email.create("aluno@email.com"),
-      password: Password.create("123456"),
-      role: UserRole.STUDENT
-    })
-
-    if (userOrError.isLeft()) throw userOrError.value
-    const user = userOrError.value
-
-    const result = await sut.execute({
-      user,
-      studentId: "student-1",
-      disciplineId: "disc-1"
-    })
-
-    expect(result.isLeft()).toBe(true)
-  })
 })
