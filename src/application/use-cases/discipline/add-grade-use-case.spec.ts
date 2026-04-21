@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest"
-import { AddGradeUseCase } from "@/application/use-cases/discipline/add-the-grade-use-case"
+import { AddGradeUseCase } from "@/application/use-cases/discipline/add-grade-use-case"
 import { InMemoryEnrollmentRepository } from "@/tests/repositories/in-memory-enrollment-repository"
 import { Enrollment } from "@/domain/discipline/entity/enrollment"
 import { User, UserRole } from "@/domain/user/entity/User"

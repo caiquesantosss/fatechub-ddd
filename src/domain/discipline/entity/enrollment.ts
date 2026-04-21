@@ -33,6 +33,16 @@ export class Enrollment {
         this.grades.push(grade)
     }
 
+    getGrade(type: GradeType): number {
+        const grade = this.grades.find(g => g.type === type)
+
+        if (!grade) {
+            throw new Error(`Nota ${type} não encontrada`)
+        }
+
+        return grade.value
+    }
+
     updateGrade(type: GradeType, value: number) {
         const grade = this.grades.find(g => g.type === type)
 
