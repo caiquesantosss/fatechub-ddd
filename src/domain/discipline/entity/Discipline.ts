@@ -20,6 +20,10 @@ export class Discipline {
   }
 
   assignProfessor(professorId: string) {
+    if (this.professorId) {
+        throw new Error('Disciplina já possui um professor.')
+    }
+
     this.professorId = professorId
   }
 }
