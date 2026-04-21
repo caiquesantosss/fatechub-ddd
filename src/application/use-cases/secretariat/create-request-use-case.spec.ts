@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest"
 import { CreateRequestUseCase } from "@application/use-cases/secretariat/create-request-use-case"
-import { InMemoryRequestRepository } from "../../../tests/repositories/in-memory-secretariat/in-memory-request-repository"
+import { InMemoryRequestRepository } from "../../../tests/repositories/in-memory-request-repository"
 import { User, UserRole } from "@/domain/user/entity/User"
 import { Email } from "@/domain/user/values-objects/email"
 import { Password } from "@/domain/user/values-objects/password"
@@ -35,7 +35,7 @@ describe("Create Request Use Case", () => {
 
     expect(result.isRight()).toBe(true)
 
-    if (result.isRight()) {
+    if (result.isRight()) { 
       expect(requestRepo.items).toHaveLength(1)
       expect(requestRepo.items[0].status).toBe("pendente")
       expect(result.value.request.studentId).toBe(user.id)

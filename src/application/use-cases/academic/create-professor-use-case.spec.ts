@@ -1,5 +1,5 @@
-import { InMemoryProfessorRepository } from "../../../tests/repositories/in-memory-academic/in-memory-professor-repository"
-import { InMemoryUserRepository } from "@/tests/repositories/in-memory-user/in-memory-user-repository"
+import { InMemoryProfessorRepository } from "../../../tests/repositories/in-memory-professor-repository"
+import { InMemoryUserRepository } from "@/tests/repositories/in-memory-user-repository"
 import { describe, expect, it } from "vitest"
 import { CreateUserUseCase } from "../user/create-user-use-case"
 import { CreateProfessorUseCase } from "./create-professor-use-case"

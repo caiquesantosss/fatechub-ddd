@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
-import { InMemoryUserRepository } from "../../../tests/repositories/in-memory-user/in-memory-user-repository"
-import { InMemoryStudentRepository } from "../../../tests/repositories/in-memory-academic/in-memory-student-repository"
+import { InMemoryUserRepository } from "../../../tests/repositories/in-memory-user-repository"
+import { InMemoryStudentRepository } from "../../../tests/repositories/in-memory-student-repository"
 import { CreateStudentUseCase } from "./create-student-use-case"
 import { CreateUserUseCase } from "../user/create-user-use-case"
 import { UserRole } from "@domain/user/entity/User"

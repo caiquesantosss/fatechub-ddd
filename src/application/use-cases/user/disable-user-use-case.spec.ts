@@ -1,4 +1,4 @@
-import { InMemoryUserRepository } from '../../../tests/repositories/in-memory-user/in-memory-user-repository'
+import { InMemoryUserRepository } from '../../../tests/repositories/in-memory-user-repository'
 import { describe, it, expect } from 'vitest'
 import { CreateUserUseCase } from './create-user-use-case'
 import { UserRole } from '@domain/user/entity/User'

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { InMemoryUserRepository } from '../../../tests/repositories/in-memory-user/in-memory-user-repository'
+import { InMemoryUserRepository } from '../../../tests/repositories/in-memory-user-repository'
 import { CreateUserUseCase } from './create-user-use-case'
 import { UserRole } from '@domain/user/entity/User'
 import { GetUserUseCase } from './get-user-use-case'
