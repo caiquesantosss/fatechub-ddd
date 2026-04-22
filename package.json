@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node --env-file .env --experimental-strip-types --no-warnings src/server.ts",
-    "dev": "tsx watch --env-file .env src/server.ts",
+    "dev": "tsx watch --env-file .env src/infra/main.ts",
     "test": "vitest run"
   },
   "devDependencies": {
