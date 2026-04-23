@@ -30,4 +30,8 @@ export class InMemoryUserRepository implements UserRepository {
       this.items[index] = user
     }
   }
+
+  async delete(id: string): Promise<void> {
+    this.items = this.items.filter(user => user.id !== id)
+  }
 }

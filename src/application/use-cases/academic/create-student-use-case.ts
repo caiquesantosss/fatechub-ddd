@@ -32,7 +32,6 @@ export class CreateStudentUseCase {
     }: CreateStudentRequest): Promise<CreateStudentResponse> {
 
         let raVO: RA
-        
 
         try {
             raVO = RA.create(ra)
@@ -54,15 +53,13 @@ export class CreateStudentUseCase {
             return left(new Error("User is not active"))
         }
 
-        const studentExists =
-            await this.studentRepository.findByUserId(userId)
+        const studentExists = await this.studentRepository.findByUserId(userId)
 
         if (studentExists) {
             return left(new Error("Student already exists"))
         }
 
-        const raExists =
-            await this.studentRepository.findByRA(raVO)
+        const raExists = await this.studentRepository.findByRA(raVO)
 
         if (raExists) {
             return left(new Error("RA already in use"))

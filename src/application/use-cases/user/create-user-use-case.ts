@@ -33,7 +33,7 @@ export class CreateUserUseCase {
 
         try {
             emailVO = Email.create(email)
-            passwordVO = await Password.create(password) // 🔥 AQUI
+            passwordVO = await Password.create(password)
         } catch (error) {
             return left(error as Error)
         }

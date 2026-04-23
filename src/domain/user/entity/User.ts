@@ -29,9 +29,6 @@ export class User {
   ) { }
 
   static create(props: CreateUserProps): Either<Error, User> {
-
-    // Correção, desaclopamento de aluno do usuário. 
-
     const user = new User(
       crypto.randomUUID(),
       props.name,
