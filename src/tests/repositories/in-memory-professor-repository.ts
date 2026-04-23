@@ -8,6 +8,10 @@ export class InMemoryProfessorRepository implements ProfessorRepository {
         this.items.push(professor)
     }
 
+    async findById(id: string): Promise<Professor | null> {
+        return this.items.find(item => item.id === id) ?? null
+    }
+
     async findByUserId(userId: string): Promise<Professor | null> {
         return this.items.find(s => s.userId === userId) ?? null
     }

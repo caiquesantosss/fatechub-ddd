@@ -3,13 +3,19 @@ import { InMemoryUserRepository } from "../../../tests/repositories/in-memory-us
 import { CreateUserUseCase } from "./create-user-use-case"
 import { UpdateUserUseCase } from "./update-user-use-case"
 import { UserRole } from '@domain/user/entity/User'
+import { beforeEach } from "vitest"
+
+let repo: InMemoryUserRepository
+let createUser: CreateUserUseCase
+let sut: UpdateUserUseCase
 
 describe("Update user", () => {
+  beforeEach(() => {
+    repo = new InMemoryUserRepository()
+    createUser = new CreateUserUseCase(repo)
+    sut = new UpdateUserUseCase(repo)
+  })
   it("should be able to update a user name", async () => {
-    const repo = new InMemoryUserRepository()
-
-    const createUser = new CreateUserUseCase(repo)
-
     await createUser.execute({
       name: "Caíque",
       email: "caique@email.com",
@@ -32,11 +38,7 @@ describe("Update user", () => {
   })
 
   it("should not update a non-existing user", async () => {
-    const repo = new InMemoryUserRepository()
-
-    const updateUser = new UpdateUserUseCase(repo)
-
-    const response = await updateUser.execute({
+    const response = await sut.execute({
       email: "naoexiste@email.com",
       name: "Teste"
     })

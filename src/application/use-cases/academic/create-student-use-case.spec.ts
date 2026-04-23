@@ -1,18 +1,25 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, beforeEach } from "vitest"
 import { InMemoryUserRepository } from "../../../tests/repositories/in-memory-user-repository"
 import { InMemoryStudentRepository } from "../../../tests/repositories/in-memory-student-repository"
 import { CreateStudentUseCase } from "./create-student-use-case"
 import { CreateUserUseCase } from "../user/create-user-use-case"
 import { UserRole } from "@domain/user/entity/User"
 
+let userRepo: InMemoryUserRepository
+let studentRepo: InMemoryStudentRepository
+let createUser: CreateUserUseCase
+let sut: CreateStudentUseCase
+
 describe("Create student use-case", () => {
+  beforeEach(() => {
+    userRepo = new InMemoryUserRepository()
+    studentRepo = new InMemoryStudentRepository()
+
+    createUser = new CreateUserUseCase(userRepo)
+    sut = new CreateStudentUseCase(userRepo, studentRepo)
+  })
+
   it("should be able to create a student", async () => {
-    const userRepo = new InMemoryUserRepository()
-    const studentRepo = new InMemoryStudentRepository()
-
-    const createUser = new CreateUserUseCase(userRepo)
-    const createStudent = new CreateStudentUseCase(userRepo, studentRepo)
-
     const userResponse = await createUser.execute({
       name: "Caíque",
       email: "caique@email.com",
@@ -25,7 +32,7 @@ describe("Create student use-case", () => {
 
     const user = userResponse.value.user
 
-    const studentResponse = await createStudent.execute({
+    const studentResponse = await sut.execute({
       userId: user.id,
       ra: "12345678",
       courseId: "course-1",
@@ -41,12 +48,7 @@ describe("Create student use-case", () => {
   })
 
   it("should not create student if user does not exist", async () => {
-    const userRepo = new InMemoryUserRepository()
-    const studentRepo = new InMemoryStudentRepository()
-
-    const createStudent = new CreateStudentUseCase(userRepo, studentRepo)
-
-    const response = await createStudent.execute({
+    const response = await sut.execute({
       userId: "fake-id",
       ra: "123456",
       courseId: "course-1",
@@ -57,12 +59,6 @@ describe("Create student use-case", () => {
   })
 
   it("should not create student if user is not student role", async () => {
-    const userRepo = new InMemoryUserRepository()
-    const studentRepo = new InMemoryStudentRepository()
-
-    const createUser = new CreateUserUseCase(userRepo)
-    const createStudent = new CreateStudentUseCase(userRepo, studentRepo)
-
     const userResponse = await createUser.execute({
       name: "Caíque",
       email: "caique@email.com",
@@ -74,7 +70,7 @@ describe("Create student use-case", () => {
 
     const user = userResponse.value.user
 
-    const response = await createStudent.execute({
+    const response = await sut.execute({
       userId: user.id,
       ra: "123456",
       courseId: "course-1",
@@ -85,12 +81,6 @@ describe("Create student use-case", () => {
   })
 
   it("should not allow duplicate RA", async () => {
-    const userRepo = new InMemoryUserRepository()
-    const studentRepo = new InMemoryStudentRepository()
-
-    const createUser = new CreateUserUseCase(userRepo)
-    const createStudent = new CreateStudentUseCase(userRepo, studentRepo)
-
     const user1 = await createUser.execute({
       name: "User 1",
       email: "user1@email.com",
@@ -107,13 +97,13 @@ describe("Create student use-case", () => {
 
     if (!user1.isRight() || !user2.isRight()) return
 
-    await createStudent.execute({
+    await sut.execute({
       userId: user1.value.user.id,
       ra: "12345678",
       courseId: "course-1",
     })
 
-    const response = await createStudent.execute({
+    const response = await sut.execute({
       userId: user2.value.user.id,
       ra: "12345678",
       courseId: "course-1",

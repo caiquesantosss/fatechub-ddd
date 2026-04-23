@@ -3,20 +3,27 @@ import { InMemoryUserRepository } from '../../../tests/repositories/in-memory-us
 import { CreateUserUseCase } from './create-user-use-case'
 import { UserRole } from '@domain/user/entity/User'
 import { GetUserUseCase } from './get-user-use-case'
+import { beforeEach } from 'vitest'
+
+let repo: InMemoryUserRepository
+let sut: CreateUserUseCase
 
 describe('Get User', () => {
-    it('should be able to get an user by email', async () => {
-        const r = new InMemoryUserRepository()
-        const useCase = new CreateUserUseCase(r)
+    beforeEach(() => {
+        repo = new InMemoryUserRepository() 
+        sut = new CreateUserUseCase(repo)
+    })
 
-        await useCase.execute({
+    it('should be able to get an user by email', async () => {
+
+        await sut.execute({
             name: "Caíque",
             email: "caique@email.com",
             password: "123456",
             role: UserRole.STUDENT, 
         })
 
-        const getUser = new GetUserUseCase(r)
+        const getUser = new GetUserUseCase(repo)
         const response = await getUser.execute({
             email: 'caique@email.com'
         })

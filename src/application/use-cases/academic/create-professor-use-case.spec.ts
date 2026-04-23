@@ -1,36 +1,48 @@
+import { describe, expect, it, beforeEach } from "vitest"
 import { InMemoryProfessorRepository } from "../../../tests/repositories/in-memory-professor-repository"
 import { InMemoryUserRepository } from "@/tests/repositories/in-memory-user-repository"
-import { describe, expect, it } from "vitest"
 import { CreateUserUseCase } from "../user/create-user-use-case"
 import { CreateProfessorUseCase } from "./create-professor-use-case"
-import { User, UserRole } from "@domain/user/entity/User"
+import { UserRole } from "@domain/user/entity/User"
 
-describe('Create professor use case', () => {
-    it('should be able to create a professor', async () => {
-        const userRepo = new InMemoryUserRepository()
-        const professorRepo = new InMemoryProfessorRepository()
+let userRepo: InMemoryUserRepository
+let professorRepo: InMemoryProfessorRepository
+let createUser: CreateUserUseCase
+let sut: CreateProfessorUseCase
 
-        const createUser = new CreateUserUseCase(userRepo)
-        const createProfessor = new CreateProfessorUseCase(userRepo, professorRepo)
+describe("Create professor use case", () => {
+  beforeEach(() => {
+    userRepo = new InMemoryUserRepository()
+    professorRepo = new InMemoryProfessorRepository()
 
-        const userResponse = await createUser.execute({
-            name: "Professor X",
-            email: "prof@email.com",
-            password: "123456",
-            role: UserRole.PROFESSOR,
-        })
+    createUser = new CreateUserUseCase(userRepo)
+    sut = new CreateProfessorUseCase(userRepo, professorRepo)
+  })
 
-        if (!userResponse.isRight()) return
-
-        const user = userResponse.value.user
-
-        const response = await createProfessor.execute({
-            userId: user.id,
-            department: 'TI'
-        })
-
-        expect(response.isRight()).toBe(true)
-        expect(professorRepo.items.length).toBe(1)
-
+  it("should be able to create a professor", async () => {
+    const userResponse = await createUser.execute({
+      name: "Professor X",
+      email: "prof@email.com",
+      password: "123456",
+      role: UserRole.PROFESSOR,
     })
+
+    expect(userResponse.isRight()).toBe(true)
+    if (!userResponse.isRight()) return
+
+    const user = userResponse.value.user
+
+    const response = await sut.execute({
+      userId: user.id,
+      department: "TI",
+    })
+
+    expect(response.isRight()).toBe(true)
+    expect(professorRepo.items.length).toBe(1)
+
+    if (response.isRight()) {
+      expect(response.value.professor.userId).toBe(user.id)
+      expect(response.value.professor.department).toBe("TI")
+    }
+  })
 })

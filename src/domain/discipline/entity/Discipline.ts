@@ -1,6 +1,7 @@
 interface CreateDisciplineProps {
   name: string
   courseId: string
+  professorId: string
 }
 
 export class Discipline {
@@ -8,14 +9,15 @@ export class Discipline {
     public readonly id: string,
     public name: string,
     public courseId: string,
-    public professorId?: string
+    public professorId: string
   ) {}
 
   static create(props: CreateDisciplineProps) {
     return new Discipline(
       crypto.randomUUID(),
       props.name,
-      props.courseId
+      props.courseId,
+      props.professorId
     )
   }
 

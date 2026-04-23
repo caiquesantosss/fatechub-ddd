@@ -16,7 +16,7 @@ type CreateCourseResponse = Either<
 export class CreateCourseUseCase {
     constructor(
         private courseRepository: CourseRepository
-    ) { }
+    ) {}
 
     async execute({
         name

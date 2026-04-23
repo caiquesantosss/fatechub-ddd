@@ -19,7 +19,7 @@ type EnrollStudentResponse = Either<
 export class EnrollStudentUseCase {
     constructor(
         private enrollmentRepository: EnrollmentRepository
-    ) { }
+    ) {}
 
     async execute({
         user,
