@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest"
 import { GetGradeUseCase } from "@/application/use-cases/discipline/get-grade-use-case"
 import { InMemoryEnrollmentRepository } from "@/tests/repositories/in-memory-enrollment-repository"
-import { Enrollment } from "@/domain/discipline/entity/enrollment"
+import { Enrollment } from "@/domain/discipline/entity/Enrollment"
 import { Grade } from "@/domain/discipline/values-objects/grade"
 
 let enrollmentRepo: InMemoryEnrollmentRepository

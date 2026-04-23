@@ -27,7 +27,6 @@ export class RegisterStudentUseCase {
 
     async execute(data: RegisterStudentUseCaseRequest): Promise<RegisterStudentUseCaseResponse> {
 
-        // 1. cria o user
         const userResult = await this.createUserUseCase.execute({
             name: data.name,
             email: data.email,
@@ -41,7 +40,6 @@ export class RegisterStudentUseCase {
 
         const user = userResult.value.user
 
-        // 2. tenta criar o student
         const studentResult = await this.createStudentUseCase.execute({
             userId: user.id,
             ra: data.ra,
@@ -49,7 +47,6 @@ export class RegisterStudentUseCase {
         })
 
         if (studentResult.isLeft()) {
-            // ❗ NÃO remove user
             return left(studentResult.value)
         }
 

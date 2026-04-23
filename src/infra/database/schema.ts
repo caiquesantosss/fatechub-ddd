@@ -8,3 +8,10 @@ export const users = pgTable('users', {
   role: text('role').notNull(),
   status: text('status').notNull()
 })
+
+export const students = pgTable('students', {
+    id: text('id').primaryKey(),
+    userId: text('user_id').notNull(),
+    ra: text('ra').notNull().unique(),
+    courseId: text('course_id').notNull()
+})

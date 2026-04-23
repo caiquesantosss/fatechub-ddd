@@ -1,5 +1,5 @@
 import { Either, left, right } from "@/core/either";
-import { Enrollment } from "@/domain/discipline/entity/enrollment"
+import { Enrollment } from "@/domain/discipline/entity/Enrollment"
 import { EnrollmentRepository } from "@/domain/discipline/repository/enrollment-repository";
 import { User, UserRole } from "@/domain/user/entity/User"
 

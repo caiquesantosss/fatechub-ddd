@@ -31,3 +31,18 @@ AVA
 Secretaria
  ├── Documento
  └── Solicitacao
+
+ Controller
+   ↓
+RegisterStudentUseCase
+   ↓
+ ┌───────────────┐
+ │ CreateUser    │
+ │ CreateStudent │
+ └───────────────┘
+   ↓
+Repositories separados
+
+Antes de ser possível criar o Student, deve possuir tabela de disciplinas. Um aluno obrigatoriamente para ser criado, deve ser atribuido a um curso.
+O curso deve ser atribuido pelo coordenador ou secretaria. 
+

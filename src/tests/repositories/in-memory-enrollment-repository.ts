@@ -1,4 +1,4 @@
-import { Enrollment } from "@/domain/discipline/entity/enrollment"
+import { Enrollment } from "@/domain/discipline/entity/Enrollment"
 import { EnrollmentRepository } from "@/domain/discipline/repository/enrollment-repository"
 
 export class InMemoryEnrollmentRepository implements EnrollmentRepository {
