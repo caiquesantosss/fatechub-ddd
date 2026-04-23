@@ -23,7 +23,7 @@ export class RegisterStudentUseCase {
     constructor(
         private createUserUseCase: CreateUserUseCase,
         private createStudentUseCase: CreateStudentUseCase
-    ) { }
+    ) {}
 
     async execute(data: RegisterStudentUseCaseRequest): Promise<RegisterStudentUseCaseResponse> {
 

@@ -1,42 +1,53 @@
 import { Either, left, right } from "@/core/either"
 import { Course } from "@/domain/course/entity/Course"
 import { CourseRepository } from "@/domain/course/repository/course-repository"
+import { User, UserRole } from "@/domain/user/entity/User"
 
 interface CreateCourseRequest {
-    name: string
+  user: User
+  name: string
 }
 
 type CreateCourseResponse = Either<
-    Error,
-    {
-        course: Course
-    }
+  Error,
+  {
+    course: Course
+  }
 >
 
 export class CreateCourseUseCase {
-    constructor(
-        private courseRepository: CourseRepository
-    ) {}
+  constructor(
+    private courseRepository: CourseRepository
+  ) {}
 
-    async execute({
-        name
-    }: CreateCourseRequest): Promise<CreateCourseResponse> {
-        const existing = await this.courseRepository.findByName(name)
+  async execute({
+    user,
+    name
+  }: CreateCourseRequest): Promise<CreateCourseResponse> {
 
-        if (existing) {
-            return left(new Error('Esse curso já existe!'))
-        }
-
-        let course: Course
-
-        try {
-            course = Course.create({ name })
-        } catch (error) {
-            return left(error as Error)
-        }
-
-        await this.courseRepository.create(course)
-
-        return right({ course })
+    if (
+      user.role !== UserRole.COORDINATOR &&
+      user.role !== UserRole.SECRETARY
+    ) {
+      return left(new Error("Apenas coordenação ou secretaria podem criar cursos"))
     }
+
+    const existing = await this.courseRepository.findByName(name)
+
+    if (existing) {
+      return left(new Error("Esse curso já existe!"))
+    }
+
+    let course: Course
+
+    try {
+      course = Course.create({ name })
+    } catch (error) {
+      return left(error as Error)
+    }
+
+    await this.courseRepository.create(course)
+
+    return right({ course })
+  }
 }
