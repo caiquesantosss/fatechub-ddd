@@ -41,7 +41,7 @@ describe("Create Course Use Case", () => {
     expect(repo.items.length).toBe(1)
   })
 
-  it("should allow secretary to create course", async () => {
+  it("should not allow secretary to create course", async () => {
     const user = await makeUser(UserRole.SECRETARY)
 
     const response = await sut.execute({
@@ -49,7 +49,8 @@ describe("Create Course Use Case", () => {
       name: "Engenharia"
     })
 
-    expect(response.isRight()).toBe(true)
+    expect(response.isLeft()).toBe(true)
+    expect(repo.items.length).toBe(0)
   })
 
   it("should not allow student to create course", async () => {

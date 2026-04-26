@@ -18,18 +18,15 @@ type CreateCourseResponse = Either<
 export class CreateCourseUseCase {
   constructor(
     private courseRepository: CourseRepository
-  ) {}
+  ) { }
 
   async execute({
     user,
     name
   }: CreateCourseRequest): Promise<CreateCourseResponse> {
 
-    if (
-      user.role !== UserRole.COORDINATOR &&
-      user.role !== UserRole.SECRETARY
-    ) {
-      return left(new Error("Apenas coordenação ou secretaria podem criar cursos"))
+    if (user.role !== UserRole.COORDINATOR) {
+      return left(new Error("Apenas coordenadores podem criar cursos"))
     }
 
     const existing = await this.courseRepository.findByName(name)
