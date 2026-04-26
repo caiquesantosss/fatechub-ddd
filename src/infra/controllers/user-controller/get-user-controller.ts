@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { DrizzleUserRepository } from "../repositories/drizzle-user-repository"
+import { DrizzleUserRepository } from "../../repositories/drizzle-user-repository"
 import { GetUserUseCase } from "@/application/use-cases/user/get-user-use-case"
 
 export class GetUserController {

@@ -7,9 +7,6 @@ import { Password } from "@/domain/user/values-objects/password"
 import { eq } from "drizzle-orm"
 
 export class DrizzleUserRepository implements UserRepository {
-  delete(id: string): Promise<void> {
-    throw new Error("Method not implemented.")
-  }
 
   async create(user: User): Promise<void> {
     await db.insert(users).values({
@@ -65,5 +62,9 @@ export class DrizzleUserRepository implements UserRepository {
       role: data.role as UserRole,
       status: data.status as any
     })
+  }
+
+  delete(id: string): Promise<void> {
+    throw new Error("Method not implemented.")
   }
 }
