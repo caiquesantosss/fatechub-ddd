@@ -5,7 +5,7 @@ import { DrizzleStudentRepository } from "@/infra/repositories/drizzle-student-r
 import { DrizzleUserRepository } from "@/infra/repositories/drizzle-user-repository";
 import { FastifyReply, FastifyRequest } from "fastify";
 
-export class CreateStudentController {
+export class RegisterStudentController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
         const { name, email, password, ra, courseId } = request.body as {
             name: string,
@@ -47,5 +47,14 @@ export class CreateStudentController {
             ra,
             courseId
         })
+
+        if (result.isLeft()) {
+            return reply.status(400).send({
+                error: result.value.message
+            })
+        }
+
+        return reply.status(201).send(result.value)
+
     }
 }
