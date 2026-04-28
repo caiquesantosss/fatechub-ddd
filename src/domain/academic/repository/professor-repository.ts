@@ -4,4 +4,5 @@ export interface ProfessorRepository {
     create(professor: Professor): Promise<void>
     findById(id: string): Promise<Professor | null>
     findByUserId(userId: string): Promise<Professor | null>
+    addCourse(professorId: string, courseId: string): Promise<void>
 }
