@@ -4,6 +4,7 @@ import fastifyJwt from '@fastify/jwt'
 import { env } from '@/env/env'
 import { courseRoutes } from './routes/course-routes'
 import { studentRoutes } from './routes/student-routes'
+import { professorRoutes } from './routes/professor-routes'
 
 export async function build() {
     const app = Fastify()
@@ -18,6 +19,7 @@ export async function build() {
     app.register(userRoutes)
     app.register(courseRoutes)
     app.register(studentRoutes)
+    app.register(professorRoutes)
 
     return app
 }

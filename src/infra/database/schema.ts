@@ -36,3 +36,27 @@ export const students = pgTable('students', {
     .notNull()
     .references(() => courses.id, { onDelete: 'restrict' })
 })
+
+// =======================
+// PROFESSORS
+// =======================
+
+export const professors = pgTable('professors', {
+  id: text('id').primaryKey(),
+
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+
+  department: text('department')
+})
+
+export const professorCourses = pgTable('professor_courses', {
+  professorId: text('professor_id')
+    .notNull()
+    .references(() => professors.id, { onDelete: 'cascade' }),
+
+  courseId: text('course_id')
+    .notNull()
+    .references(() => courses.id, { onDelete: 'cascade' })
+})
